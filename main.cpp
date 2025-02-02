@@ -3,7 +3,10 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <stack>
+#include <regex>
 
+/*
 void displayFile(const std::string& filename) {
     std::ifstream file(filename);
     if (!file) {
@@ -120,3 +123,55 @@ int main() {
 
     return 0;
 }
+*/
+
+/*
+bool isValidHTML(const std::string& filename) {
+    std::ifstream file(filename);
+    if (!file) {
+        std::cerr << "Error opening file!\n";
+        return false;
+    }
+
+    std::stack<std::string> tags;
+    std::string line;
+    std::regex tagPattern(R"(<(/?)([a-zA-Z0-9]+)[^>]*>)");
+    std::smatch match;
+
+    while (std::getline(file, line)) {
+        std::string::const_iterator searchStart(line.cbegin());
+        while (std::regex_search(searchStart, line.cend(), match, tagPattern)) {
+            std::string tagName = match[2];
+            bool isClosing = match[1] == "/";
+
+            if (isClosing) {
+                if (tags.empty() || tags.top() != tagName) {
+                    return false;
+                }
+                tags.pop();
+            }
+            else {
+                tags.push(tagName);
+            }
+            searchStart = match.suffix().first;
+        }
+    }
+    file.close();
+    return tags.empty();
+}
+
+int main() {
+    std::string filename;
+    std::cout << "Enter HTML file path: ";
+    std::cin >> filename;
+
+    if (isValidHTML(filename)) {
+        std::cout << "The HTML file is valid.\n";
+    }
+    else {
+        std::cout << "The HTML file is invalid.\n";
+    }
+
+    return 0;
+}
+*/
